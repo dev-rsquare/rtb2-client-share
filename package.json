@@ -1,0 +1,69 @@
+{
+  "name": "rtb2-client-share",
+  "version": "0.0.0",
+  "description": "A scaffold app for building a React component/library using Vite, ready for publication to npm",
+  "author": "Tom Southall",
+  "keywords": [],
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "main": "./dist/rtb2-client-share.umd.js",
+  "module": "./dist/rtb2-client-share.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/rtb2-client-share.es.js",
+      "require": "./dist/rtb2-client-share.umd.js"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "test": "vitest run",
+    "watch": "vitest",
+    "coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "prop-types": "^15.8.1"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^9.3.3",
+    "@testing-library/react": "^14.1.2",
+    "@vitejs/plugin-react": "^4.2.1",
+    "c8": "^9.0.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
+    "jsdom": "^23.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-test-renderer": "^18.2.0",
+    "vite": "^5.0.10",
+    "vitest": "^1.1.1"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true,
+      "es2020": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended"
+    ],
+    "parserOptions": {
+      "sourceType": "module"
+    }
+  }
+}
