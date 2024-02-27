@@ -1,3 +1,3 @@
-export { Button } from './components/Button';
-export { Input } from './components/Input';
-export { Label } from './components/Label';
+export * from '@mui/material';
+export { Row } from './components/Row';
+export { Column } from './components/Column';
