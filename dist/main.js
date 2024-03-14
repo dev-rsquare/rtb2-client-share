@@ -33574,26 +33574,28 @@ var ct, Mo, Bo, On, $n, Lo, Sn, Rn, sc, NI = (sc = class {
 }) => (f.useEffect(() => (e.mount(), () => {
   e.unmount();
 }), [e]), /* @__PURE__ */ x(II.Provider, { value: e, children: o }));
-const yB = (e, o) => {
-  window.RTB2_MENUS || (window.RTB2_MENUS = {}), Object.assign(window.RTB2_MENUS, e);
-  class n extends HTMLElement {
+const yB = (e, o, n) => {
+  window.RTB2_MENUS || (window.RTB2_MENUS = {}), Object.assign(window.RTB2_MENUS, {
+    [e]: o
+  });
+  class r extends HTMLElement {
     connectedCallback() {
-      const s = document.createElement("div");
-      s.style.display = "flex", s.style.flexDirection = "column", s.style.flex = "1", this.appendChild(s);
-      const a = mf({
-        key: e.component,
+      const a = document.createElement("div");
+      a.style.display = "flex", a.style.flexDirection = "column", a.style.flex = "1", this.appendChild(a);
+      const i = mf({
+        key: o.component,
         prepend: !0,
-        container: s
-      }), i = bf(), l = new NI({});
-      vf(s).render(
-        /* @__PURE__ */ x(gf, { value: a, children: /* @__PURE__ */ x(kI, { client: l, children: /* @__PURE__ */ Ce(Of, { theme: i, children: [
+        container: a
+      }), l = bf(), c = new NI({});
+      vf(a).render(
+        /* @__PURE__ */ x(gf, { value: i, children: /* @__PURE__ */ x(kI, { client: c, children: /* @__PURE__ */ Ce(Of, { theme: l, children: [
           /* @__PURE__ */ x(Vu, {}),
-          /* @__PURE__ */ x(o, {})
+          /* @__PURE__ */ x(n, {})
         ] }) }) })
       );
     }
   }
-  customElements.define(e.component, n);
+  customElements.define(o.component, r);
 };
 export {
   KI as Accordion,

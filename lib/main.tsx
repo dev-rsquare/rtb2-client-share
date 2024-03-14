@@ -23,6 +23,7 @@ declare global {
 }
 
 export const initRTB2App = (
+  key: string,
   info: {
     name: string;
     path: string;
@@ -33,7 +34,9 @@ export const initRTB2App = (
 ) => {
   if (!window.RTB2_MENUS) window.RTB2_MENUS = {};
 
-  Object.assign(window.RTB2_MENUS, info);
+  Object.assign(window.RTB2_MENUS, {
+    [key]: info,
+  });
 
   class XElement extends HTMLElement {
     connectedCallback() {

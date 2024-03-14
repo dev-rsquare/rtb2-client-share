@@ -17,7 +17,7 @@ declare global {
         };
     }
 }
-export declare const initRTB2App: (info: {
+export declare const initRTB2App: (key: string, info: {
     name: string;
     path: string;
     component: string;
