@@ -4,10 +4,10 @@ export { Row } from "./components/Row";
 
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
-import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { CssBaseline, ThemeProvider } from "@mui/material";
 import { FC } from "react";
 import * as ReactDOM from "react-dom/client";
+import theme from "./theme";
 
 declare global {
   interface Window {
@@ -52,19 +52,13 @@ export const initRTB2App = (
         container: frame,
       });
 
-      const theme = createTheme();
-
-      const queryClient = new QueryClient({});
-
       const root = ReactDOM.createRoot(frame);
       root.render(
         <CacheProvider value={cache}>
-          <QueryClientProvider client={queryClient}>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              <App />
-            </ThemeProvider>
-          </QueryClientProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <App />
+          </ThemeProvider>
         </CacheProvider>
       );
     }
