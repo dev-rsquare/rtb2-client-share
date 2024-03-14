@@ -32332,7 +32332,7 @@ const Bk = (e, t, n) => {
       Qu(a).render(
         /* @__PURE__ */ x(Ju, { value: i, children: /* @__PURE__ */ ye(sp, { theme: ep, children: [
           /* @__PURE__ */ x(Ic, {}),
-          /* @__PURE__ */ x(n, {})
+          n
         ] }) })
       );
     }

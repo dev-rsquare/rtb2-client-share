@@ -1,7 +1,7 @@
 export * from "@mui/material";
 export { Column } from "./components/Column";
 export { Row } from "./components/Row";
-import { FC } from "react";
+import { ReactNode } from "react";
 declare global {
     interface Window {
         RTB2_MENUS: {
@@ -25,4 +25,4 @@ export declare const initRTB2App: (key: string, info: {
         label: string;
         value: string;
     }[];
-}, App: FC) => void;
+}, app: ReactNode) => void;

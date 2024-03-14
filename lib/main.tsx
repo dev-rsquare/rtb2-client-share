@@ -5,9 +5,9 @@ export { Row } from "./components/Row";
 import createCache from "@emotion/cache";
 import { CacheProvider } from "@emotion/react";
 import { CssBaseline, ThemeProvider } from "@mui/material";
-import { FC } from "react";
 import * as ReactDOM from "react-dom/client";
 import theme from "./theme";
+import { ReactNode } from "react";
 
 declare global {
   interface Window {
@@ -30,7 +30,7 @@ export const initRTB2App = (
     component: string;
     submenus: { label: string; value: string }[];
   },
-  App: FC
+  app: ReactNode
 ) => {
   if (!window.RTB2_MENUS) window.RTB2_MENUS = {};
 
@@ -57,7 +57,7 @@ export const initRTB2App = (
         <CacheProvider value={cache}>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <App />
+            {app}
           </ThemeProvider>
         </CacheProvider>
       );
