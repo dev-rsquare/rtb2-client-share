@@ -1,9 +1,11 @@
 import "./assets/theme.css";
+import "react/jsx-runtime";
 import "./components/Column/index.js";
 import "./components/Row/index.js";
-import { c as r } from "./createTheme-ed77b13f.js";
+import "./client-42d26036.js";
+import { c as r } from "./createTheme-3a6629d7.js";
 import { r as e } from "./grey-c051ab9f.js";
-const d = r({
+const n = r({
   palette: {
     primary: {
       main: "#556cd6"
@@ -31,5 +33,5 @@ const d = r({
   }
 });
 export {
-  d as default
+  n as default
 };
