@@ -19574,6 +19574,9 @@ const eb = Hk({
     },
     error: {
       main: Fk.A400
+    },
+    background: {
+      default: "#F3F4F6"
     }
   },
   typography: {

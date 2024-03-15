@@ -16,6 +16,9 @@ const theme = createTheme({
         error: {
             main: red.A400,
         },
+        background: {
+            default: "#F3F4F6",
+        }
     },
     typography: {
         fontFamily: "Pretendard",
