@@ -19591,6 +19591,11 @@ const eb = Hk({
           }
         }
       }
+    },
+    MuiPaper: {
+      defaultProps: {
+        variant: "outlined"
+      }
     }
   }
 });
