@@ -1,10 +1,9 @@
 import { jsxs as n, jsx as e } from "react/jsx-runtime";
-import { n as p } from "../../createTheme-c26d6c87.js";
+import { n as p } from "../../createTheme-9d913e0e.js";
 import { Column as g } from "../../components/Column/index.js";
 import { Row as d } from "../../components/Row/index.js";
-import "../../theme-dc57b2b0.js";
-import { T as l, B as a } from "../../Button-30aae85a.js";
-import { T as o, a as s, b as r, c as i, C as t } from "../../TableRow-3364e3d6.js";
+import "../../theme-dd41183d.js";
+import { T as l, a as o, b as s, c as r, d as i, C as t, B as a } from "../../TableRow-2b4ac02e.js";
 const h = p(d)`
     display: flex;
     align-items: center;
@@ -25,7 +24,7 @@ const h = p(d)`
         overflow: hidden;
         text-overflow: ellipsis;
     }
-`, v = () => /* @__PURE__ */ n(g, { gap: "8px", children: [
+`, u = () => /* @__PURE__ */ n(g, { gap: "8px", children: [
   /* @__PURE__ */ e(d, { justifyContent: "space-between", alignItems: "center", children: /* @__PURE__ */ e(l, { variant: "h6", fontWeight: "bold", children: "문의처리" }) }),
   /* @__PURE__ */ e(d, { border: "1px solid #e0e0e0", children: /* @__PURE__ */ e(o, { style: { tableLayout: "fixed" }, children: /* @__PURE__ */ n(
     s,
@@ -98,5 +97,5 @@ const h = p(d)`
   ) }) })
 ] });
 export {
-  v as default
+  u as default
 };
