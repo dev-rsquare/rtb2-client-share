@@ -29,7 +29,7 @@ import {Column, Row} from '../../main'
 interface Props {
   open: boolean;
   onClose: () => void;
-  teskGroup: string;
+  teskGroup?: string;
 }
 
 interface Form {
@@ -131,7 +131,7 @@ const TaskCreateDialog: FC<Props> = ({ open, onClose, teskGroup }) => {
     request: "",
   });
 
-  const convertTaskGroupToString = (str: string) => {
+  const convertTaskGroupToString = (str?: string) => {
     switch (str) {
       case "office":
         return "[기회]오피스";

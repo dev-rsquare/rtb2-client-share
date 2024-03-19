@@ -1,22 +1,22 @@
 import { jsx as e, jsxs as t } from "react/jsx-runtime";
-import { n as R, c as E } from "../../createTheme-9d913e0e.js";
+import { n as G, c as $ } from "../../createTheme-9d913e0e.js";
 import { useState as f } from "react";
-import { Column as b } from "../../components/Column/index.js";
+import { Column as m } from "../../components/Column/index.js";
 import { Row as i } from "../../components/Row/index.js";
 import "../../theme-dd41183d.js";
-import { D as H, a as $, b as J, c as K, T as r, M as h, F as g, C as x, d as Q, e as B, f as U, A as p, I as c, g as X, h as Y } from "../../TextField-fc4262cc.js";
-import { T as n, a as Z, b as ee, c as s, d as a, B as D } from "../../TableRow-2b4ac02e.js";
-const d = R(i)`
+import { D as H, a as J, b as K, c as Q, d as U, T as r, M as h, F as g, C as x, e as X, f as T, g as Y, A as u, I as c, h as Z } from "../../TextField-12b0b084.js";
+import { T as n, B as D, a as ee, b as te, c as s, d as a } from "../../TableRow-2b4ac02e.js";
+const d = G(i)`
     display: flex;
     align-items: center;
     padding: 10px;
-    min-width: 125px;
-    max-width: 125px;
+    min-width: 115px;
+    max-width: 115px;
     height: 100%;
-    ${(w) => !w.noBgColor && E`
+    ${(w) => !w.noBgColor && $`
                 background-color: #f5fdfa;
             `}
-`, o = R(i)`
+`, o = G(i)`
     display: flex;
     flex: 1;
     align-items: center;
@@ -60,14 +60,14 @@ const d = R(i)`
 ], j = [
   { title: "전세", value: "전세" },
   { title: "월세", value: "월세" }
-], he = ({ open: w, onClose: y }) => {
-  const [A, G] = f(!0), [C, M] = f(!1), [N, _] = f(!1), [z, O] = f(!1), [v, T] = f(""), [u, W] = f({
+], ce = ({ open: w, onClose: W, teskGroup: M }) => {
+  const [A, R] = f(!0), [C, N] = f(!1), [_, q] = f(!1), [z, O] = f(!1), [v, k] = f(""), [p, y] = f({
     taskGroup: "업무그룹 선택",
     taskName: "",
     type: "client",
     manager: "choice",
     request: ""
-  }), q = (l) => {
+  }), E = (l) => {
     switch (l) {
       case "office":
         return "[기회]오피스";
@@ -80,36 +80,42 @@ const d = R(i)`
       default:
         return "업무그룹 선택";
     }
-  }, k = (l) => {
-    z && l === v ? (T(""), O(!1)) : O(!0);
+  }, B = (l) => {
+    z && l === v ? (k(""), O(!1)) : O(!0);
   };
   return /* @__PURE__ */ e(
     H,
     {
       open: w,
-      onClose: y,
-      PaperProps: { sx: { borderRadius: "16px" } },
+      onClose: W,
+      anchor: "right",
+      PaperProps: { sx: { maxWidth: "50%", width: "70%" } },
       children: /* @__PURE__ */ t(
-        $,
+        J,
         {
           expanded: A,
-          onChange: () => G(!A),
-          sx: { width: "530px" },
+          onChange: () => R(!A),
           children: [
-            /* @__PURE__ */ e(J, { sx: { backgroundColor: "#F6F8FA" }, children: /* @__PURE__ */ e(n, { variant: "h6", fontWeight: "bold", children: q(u.taskGroup) }) }),
+            /* @__PURE__ */ e(K, { sx: { backgroundColor: "#F6F8FA" }, children: /* @__PURE__ */ t(i, { flex: "1", alignItems: "center", justifyContent: "space-between", children: [
+              /* @__PURE__ */ e(n, { variant: "h6", fontWeight: "bold", children: E(p.taskGroup ? p.taskGroup : M) }),
+              /* @__PURE__ */ t(Q, { children: [
+                /* @__PURE__ */ e(D, { variant: "outlined", onClick: W, children: "닫기" }),
+                /* @__PURE__ */ e(D, { variant: "contained", onClick: W, children: "등록" })
+              ] })
+            ] }) }),
             /* @__PURE__ */ e(
-              K,
+              U,
               {
-                sx: { padding: "30px", maxHeight: "600px", overflow: "auto" },
-                children: /* @__PURE__ */ t(b, { gap: "15px", children: [
+                sx: { padding: "30px", overflow: "auto" },
+                children: /* @__PURE__ */ t(m, { gap: "15px", children: [
                   /* @__PURE__ */ t(i, { alignItems: "center", gap: "10px", children: [
                     /* @__PURE__ */ e(i, { justifyContent: "flex-end", width: "50px", children: /* @__PURE__ */ e(n, { variant: "subtitle2", children: "업무그룹" }) }),
                     /* @__PURE__ */ t(
                       r,
                       {
                         size: "small",
-                        value: u.taskGroup,
-                        onChange: (l) => W({ ...u, taskGroup: l.target.value }),
+                        value: p.taskGroup,
+                        onChange: (l) => y({ ...p, taskGroup: l.target.value }),
                         sx: { width: "420px" },
                         select: !0,
                         children: [
@@ -145,8 +151,8 @@ const d = R(i)`
                       r,
                       {
                         size: "small",
-                        value: u.type,
-                        onChange: (l) => W({ ...u, type: l.target.value }),
+                        value: p.type,
+                        onChange: (l) => y({ ...p, type: l.target.value }),
                         sx: { width: "140px" },
                         select: !0,
                         children: [
@@ -165,8 +171,8 @@ const d = R(i)`
                       r,
                       {
                         size: "small",
-                        value: u.manager,
-                        onChange: (l) => W({ ...u, manager: l.target.value }),
+                        value: p.manager,
+                        onChange: (l) => y({ ...p, manager: l.target.value }),
                         sx: { width: "120px" },
                         select: !0,
                         disabled: C,
@@ -185,7 +191,7 @@ const d = R(i)`
                           x,
                           {
                             value: C,
-                            onChange: (l, m) => M(m)
+                            onChange: (l, b) => N(b)
                           }
                         ),
                         label: /* @__PURE__ */ e(n, { variant: "subtitle2", children: "지정요청" })
@@ -194,7 +200,7 @@ const d = R(i)`
                   ] }),
                   /* @__PURE__ */ t(i, { alignItems: "center", gap: "10px", children: [
                     /* @__PURE__ */ e(i, { justifyContent: "flex-end", width: "50px", children: /* @__PURE__ */ e(n, { variant: "subtitle2", children: "요청" }) }),
-                    /* @__PURE__ */ t(b, { position: "relative", flex: 1, children: [
+                    /* @__PURE__ */ t(m, { position: "relative", flex: 1, children: [
                       /* @__PURE__ */ e(
                         r,
                         {
@@ -227,8 +233,8 @@ const d = R(i)`
                               control: /* @__PURE__ */ e(
                                 x,
                                 {
-                                  value: N,
-                                  onChange: (l, m) => _(m)
+                                  value: _,
+                                  onChange: (l, b) => q(b)
                                 }
                               ),
                               label: /* @__PURE__ */ e(n, { variant: "caption", children: "완료희망일 입력" })
@@ -238,12 +244,12 @@ const d = R(i)`
                       )
                     ] })
                   ] }),
-                  /* @__PURE__ */ t(b, { children: [
+                  /* @__PURE__ */ t(m, { children: [
                     /* @__PURE__ */ t(
-                      Q,
+                      X,
                       {
                         value: v,
-                        onChange: (l, m) => T(m),
+                        onChange: (l, b) => k(b),
                         textColor: "inherit",
                         TabIndicatorProps: {
                           sx: {
@@ -265,11 +271,11 @@ const d = R(i)`
                         },
                         children: [
                           /* @__PURE__ */ e(
-                            B,
+                            T,
                             {
                               label: "연결",
                               value: "connect",
-                              onClick: () => k("connect"),
+                              onClick: () => B("connect"),
                               sx: {
                                 width: "49%",
                                 borderRadius: "6px 6px 0 0"
@@ -278,11 +284,11 @@ const d = R(i)`
                           ),
                           /* @__PURE__ */ e(i, { flex: 1 }),
                           /* @__PURE__ */ e(
-                            B,
+                            T,
                             {
                               label: "정보",
                               value: "info",
-                              onClick: () => k("info"),
+                              onClick: () => B("info"),
                               sx: {
                                 width: "49%",
                                 borderRadius: "6px 6px 0 0"
@@ -293,7 +299,7 @@ const d = R(i)`
                       }
                     ),
                     /* @__PURE__ */ t(
-                      U,
+                      Y,
                       {
                         timeout: "auto",
                         in: z,
@@ -302,8 +308,8 @@ const d = R(i)`
                           borderRadius: "0px 0px 6px 6px"
                         },
                         children: [
-                          /* @__PURE__ */ t(b, { height: "240px", p: "10px 15px", children: [
-                            v === "connect" && /* @__PURE__ */ t(b, { children: [
+                          /* @__PURE__ */ t(m, { height: "240px", p: "10px 15px", children: [
+                            v === "connect" && /* @__PURE__ */ t(m, { children: [
                               /* @__PURE__ */ t(i, { gap: "5px", children: [
                                 /* @__PURE__ */ t(
                                   r,
@@ -334,8 +340,8 @@ const d = R(i)`
                                 /* @__PURE__ */ e("li", { children: "딜" })
                               ] })
                             ] }),
-                            v === "info" && /* @__PURE__ */ e(Z, { style: { tableLayout: "fixed" }, children: /* @__PURE__ */ t(
-                              ee,
+                            v === "info" && /* @__PURE__ */ e(m, { sx: { overflow: "auto" }, children: /* @__PURE__ */ e(ee, { style: { tableLayout: "fixed" }, children: /* @__PURE__ */ t(
+                              te,
                               {
                                 sx: {
                                   td: { height: "40px", padding: "4px" }
@@ -362,7 +368,7 @@ const d = R(i)`
                                               }
                                             ) }),
                                             /* @__PURE__ */ e(o, { children: /* @__PURE__ */ e(
-                                              p,
+                                              u,
                                               {
                                                 id: "region",
                                                 size: "small",
@@ -649,7 +655,7 @@ const d = R(i)`
                                                 }
                                               ) }),
                                               /* @__PURE__ */ e(o, { children: /* @__PURE__ */ e(
-                                                p,
+                                                u,
                                                 {
                                                   id: "park-type",
                                                   size: "small",
@@ -686,7 +692,7 @@ const d = R(i)`
                                                 }
                                               ) }),
                                               /* @__PURE__ */ e(o, { children: /* @__PURE__ */ e(
-                                                p,
+                                                u,
                                                 {
                                                   id: "elevator",
                                                   size: "small",
@@ -725,7 +731,7 @@ const d = R(i)`
                                                 }
                                               ) }),
                                               /* @__PURE__ */ e(o, { children: /* @__PURE__ */ e(
-                                                p,
+                                                u,
                                                 {
                                                   id: "cooling",
                                                   size: "small",
@@ -762,7 +768,7 @@ const d = R(i)`
                                                 }
                                               ) }),
                                               /* @__PURE__ */ e(o, { children: /* @__PURE__ */ e(
-                                                p,
+                                                u,
                                                 {
                                                   id: "heating",
                                                   size: "small",
@@ -801,7 +807,7 @@ const d = R(i)`
                                                 }
                                               ) }),
                                               /* @__PURE__ */ e(o, { children: /* @__PURE__ */ e(
-                                                p,
+                                                u,
                                                 {
                                                   id: "interior",
                                                   size: "small",
@@ -837,7 +843,7 @@ const d = R(i)`
                                                   children: "층 옵션"
                                                 }
                                               ) }),
-                                              /* @__PURE__ */ e(o, { children: /* @__PURE__ */ t(X, { sx: { flexDirection: "row" }, children: [
+                                              /* @__PURE__ */ e(o, { children: /* @__PURE__ */ t(Z, { sx: { flexDirection: "row" }, children: [
                                                 /* @__PURE__ */ e(g, { control: /* @__PURE__ */ e(x, {}), label: "1층만" }),
                                                 /* @__PURE__ */ e(g, { control: /* @__PURE__ */ e(x, {}), label: "1층 제외" }),
                                                 /* @__PURE__ */ e(g, { control: /* @__PURE__ */ e(x, {}), label: "지하만" }),
@@ -870,7 +876,7 @@ const d = R(i)`
                                                 }
                                               ) }),
                                               /* @__PURE__ */ e(o, { children: /* @__PURE__ */ e(
-                                                p,
+                                                u,
                                                 {
                                                   id: "is-house-office",
                                                   size: "small",
@@ -907,7 +913,7 @@ const d = R(i)`
                                                 }
                                               ) }),
                                               /* @__PURE__ */ e(o, { children: /* @__PURE__ */ e(
-                                                p,
+                                                u,
                                                 {
                                                   id: "fee-type",
                                                   size: "small",
@@ -1023,7 +1029,7 @@ const d = R(i)`
                                   ) })
                                 ]
                               }
-                            ) })
+                            ) }) })
                           ] }),
                           /* @__PURE__ */ t(
                             i,
@@ -1049,20 +1055,6 @@ const d = R(i)`
                   )
                 ] })
               }
-            ),
-            /* @__PURE__ */ t(
-              Y,
-              {
-                sx: {
-                  justifyContent: "center",
-                  borderTop: "1px solid #D9D9D9",
-                  backgroundColor: "#F6F8FA"
-                },
-                children: [
-                  /* @__PURE__ */ e(D, { variant: "outlined", onClick: y, children: "닫기" }),
-                  /* @__PURE__ */ e(D, { variant: "contained", onClick: y, children: "등록" })
-                ]
-              }
             )
           ]
         }
@@ -1071,5 +1063,5 @@ const d = R(i)`
   );
 };
 export {
-  he as default
+  ce as default
 };
