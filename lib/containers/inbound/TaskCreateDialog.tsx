@@ -1,25 +1,35 @@
 import {
   Accordion,
   AccordionDetails,
-  AccordionSummary, Button,
-  Checkbox, Collapse,
-  Dialog, DialogActions,
+  AccordionSummary,
+  Autocomplete,
+  Button,
+  Checkbox,
+  Collapse,
+  css,
+  DialogActions,
+  Drawer,
   FormControlLabel,
-  MenuItem, Tab, Tabs,
+  FormGroup,
+  InputAdornment,
+  MenuItem,
+  Tab,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Tabs,
   TextField,
   Typography,
-  Table, TableBody,
-  TableRow, TableCell,
-  Autocomplete, InputAdornment,
-  FormGroup, css
-} from "@mui/material"
-import styled from "@emotion/styled";
-import { FC, useState } from "react"
-import { Column, Row } from "../../main";
+} from '@mui/material'
+import styled from '@emotion/styled'
+import {FC, useState} from 'react'
+import {Column, Row} from '../../main'
 
 interface Props {
   open: boolean;
   onClose: () => void;
+  teskGroup: string;
 }
 
 interface Form {
@@ -38,12 +48,12 @@ const TitleCell = styled(Row)<TitleCellProps>`
     display: flex;
     align-items: center;
     padding: 10px;
-    min-width: 125px;
-    max-width: 125px;
+    min-width: 115px;
+    max-width: 115px;
     height: 100%;
     ${(props) =>
-  !props.noBgColor &&
-  css`
+            !props.noBgColor &&
+            css`
                 background-color: #f5fdfa;
             `}
 `;
@@ -107,62 +117,74 @@ const feeTypeOptions = [
   { title: "월세", value: "월세" },
 ];
 
-const TaskCreateDialog: FC<Props> = ({open, onClose}) => {
-  const [expand, setExpand] = useState<boolean>(true)
-  const [isManager, setIsManager] = useState<boolean>(false)
-  const [isDesiredDate, setIsDesiredDate] = useState<boolean>(false)
-  const [collapseOpen, setCollapseOpen] = useState<boolean>(false)
-  const [tab, setTab] = useState<"connect" | "info" | "">("")
+const TaskCreateDialog: FC<Props> = ({ open, onClose, teskGroup }) => {
+  const [expand, setExpand] = useState<boolean>(true);
+  const [isManager, setIsManager] = useState<boolean>(false);
+  const [isDesiredDate, setIsDesiredDate] = useState<boolean>(false);
+  const [collapseOpen, setCollapseOpen] = useState<boolean>(false);
+  const [tab, setTab] = useState<"connect" | "info" | "">("");
   const [form, setForm] = useState<Form>({
     taskGroup: "업무그룹 선택",
     taskName: "",
     type: "client",
     manager: "choice",
     request: "",
-  })
+  });
 
   const convertTaskGroupToString = (str: string) => {
     switch (str) {
       case "office":
-        return "[기회]오피스"
+        return "[기회]오피스";
       case "retail":
-        return "[기회]리테일"
+        return "[기회]리테일";
       case "warehouse":
-        return "[기회]물류창고"
+        return "[기회]물류창고";
       case "interior":
-        return "[기회]인테리어"
+        return "[기회]인테리어";
       default:
-        return "업무그룹 선택"
+        return "업무그룹 선택";
     }
-  }
+  };
 
   const onClickTab = (t: string) => {
     if (collapseOpen && t === tab) {
-      setTab("")
-      setCollapseOpen(false)
+      setTab("");
+      setCollapseOpen(false);
     } else {
-      setCollapseOpen(true)
+      setCollapseOpen(true);
     }
-  }
+  };
 
   return (
-    <Dialog
+    <Drawer
       open={open}
       onClose={onClose}
-      PaperProps={{sx: {borderRadius: "16px"}}}
+      anchor="right"
+      // PaperProps={{sx: {borderRadius: "16px"}}}
+      PaperProps={{ sx: { maxWidth: "50%", width: "70%" } }}
     >
       <Accordion
         expanded={expand}
         onChange={() => setExpand(!expand)}
-        sx={{width: "530px"}}
+        // sx={{width: "530px"}}
       >
-        <AccordionSummary sx={{backgroundColor: "#F6F8FA"}}>
-          <Typography variant="h6" fontWeight="bold">
-            {convertTaskGroupToString(form.taskGroup)}
-          </Typography>
+        <AccordionSummary sx={{ backgroundColor: "#F6F8FA" }}>
+          <Row flex="1" alignItems="center" justifyContent="space-between">
+            <Typography variant="h6" fontWeight="bold">
+              {convertTaskGroupToString(form.taskGroup ? form.taskGroup : teskGroup)}
+            </Typography>
+            <DialogActions>
+              <Button variant="outlined" onClick={onClose}>
+                닫기
+              </Button>
+              <Button variant="contained" onClick={onClose}>
+                등록
+              </Button>
+            </DialogActions>
+          </Row>
         </AccordionSummary>
         <AccordionDetails
-          sx={{padding: "30px", maxHeight: "600px", overflow: "auto"}}
+          sx={{ padding: "30px", overflow: "auto" }}
         >
           <Column gap="15px">
             <Row alignItems="center" gap="10px">
@@ -173,9 +195,9 @@ const TaskCreateDialog: FC<Props> = ({open, onClose}) => {
                 size="small"
                 value={form.taskGroup}
                 onChange={(e) =>
-                  setForm({...form, taskGroup: e.target.value})
+                  setForm({ ...form, taskGroup: e.target.value })
                 }
-                sx={{width: "420px"}}
+                sx={{ width: "420px" }}
                 select
               >
                 <MenuItem value="업무그룹 선택">선택</MenuItem>
@@ -193,7 +215,7 @@ const TaskCreateDialog: FC<Props> = ({open, onClose}) => {
               <TextField
                 size="small"
                 placeholder="업무명을 입력해 주세요."
-                sx={{width: "420px"}}
+                sx={{ width: "420px" }}
               />
             </Row>
             <Row alignItems="center" gap="10px">
@@ -204,8 +226,8 @@ const TaskCreateDialog: FC<Props> = ({open, onClose}) => {
               <TextField
                 size="small"
                 value={form.type}
-                onChange={(e) => setForm({...form, type: e.target.value})}
-                sx={{width: "140px"}}
+                onChange={(e) => setForm({ ...form, type: e.target.value })}
+                sx={{ width: "140px" }}
                 select
               >
                 <MenuItem value="client">거래처</MenuItem>
@@ -220,8 +242,8 @@ const TaskCreateDialog: FC<Props> = ({open, onClose}) => {
               <TextField
                 size="small"
                 value={form.manager}
-                onChange={(e) => setForm({...form, manager: e.target.value})}
-                sx={{width: "120px"}}
+                onChange={(e) => setForm({ ...form, manager: e.target.value })}
+                sx={{ width: "120px" }}
                 select
                 disabled={isManager}
               >
@@ -249,7 +271,7 @@ const TaskCreateDialog: FC<Props> = ({open, onClose}) => {
                   size="small"
                   placeholder="요청사항 입력"
                   inputProps={{
-                    style: {fontSize: "14px", marginBottom: "35px"},
+                    style: { fontSize: "14px", marginBottom: "35px" },
                   }}
                   sx={{
                     position: "relative",
@@ -265,7 +287,7 @@ const TaskCreateDialog: FC<Props> = ({open, onClose}) => {
                   borderRadius="0 0 4px 4px"
                   m="2px"
                   p="0 15px"
-                  sx={{backgroundColor: "#F6F8FA", inset: "auto 0 0 0"}}
+                  sx={{ backgroundColor: "#F6F8FA", inset: "auto 0 0 0" }}
                 >
                   <FormControlLabel
                     control={
@@ -347,7 +369,7 @@ const TaskCreateDialog: FC<Props> = ({open, onClose}) => {
                     borderRadius: "6px 6px 0 0",
                   }}
                 />
-                <Row flex={1}/>
+                <Row flex={1} />
                 <Tab
                   label="정보"
                   value="info"
@@ -373,7 +395,7 @@ const TaskCreateDialog: FC<Props> = ({open, onClose}) => {
                         <TextField
                           defaultValue="client"
                           size="small"
-                          sx={{width: "120px"}}
+                          sx={{ width: "120px" }}
                           select
                         >
                           <MenuItem value="client">거래처</MenuItem>
@@ -394,612 +416,600 @@ const TaskCreateDialog: FC<Props> = ({open, onClose}) => {
                     </Column>
                   )}
                   {tab === "info" && (
-                    <Table style={{ tableLayout: "fixed" }}>
-                      <TableBody
-                        sx={{
-                          td: { height: "40px", padding: "4px" },
-                        }}
-                      >
-                        <TableRow>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                            colSpan={2}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
+                    <Column sx={{ overflow: "auto" }}>
+                      <Table style={{ tableLayout: "fixed" }}>
+                        <TableBody
+                          sx={{
+                            td: { height: "40px", padding: "4px" },
+                          }}
+                        >
+                          <TableRow>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
+                              colSpan={2}
                             >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  희망지역
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <Autocomplete
-                                  id="region"
-                                  size="small"
-                                  options={regionOptions}
-                                  defaultValue={regionOptions[0]}
-                                  filterSelectedOptions
-                                  fullWidth
-                                  getOptionLabel={(option) => option.title}
-                                  renderInput={(params) => (
-                                    <TextField {...params} placeholder="선택" />
-                                  )}
-                                />
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    희망지역
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
+                                  <Autocomplete
+                                    id="region"
+                                    size="small"
+                                    options={regionOptions}
+                                    defaultValue={regionOptions[0]}
+                                    filterSelectedOptions
+                                    fullWidth
+                                    getOptionLabel={(option) => option.title}
+                                    renderInput={(params) => (
+                                      <TextField {...params} placeholder="선택" />
+                                    )}
+                                  />
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
                             >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  이전 희망일자
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <TextField size="small" fullWidth />
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    이전 희망일자
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
+                                  <TextField size="small" fullWidth />
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
                             >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  전용면적(평)
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <Row gap="8px">
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    전용면적(평)
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
+                                  <Row gap="8px">
+                                    <TextField
+                                      size="small"
+                                      fullWidth
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">최소</InputAdornment>,
+                                      }} />
+                                    <TextField
+                                      size="small"
+                                      fullWidth
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">최대</InputAdornment>,
+                                      }} />
+                                  </Row>
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
+                            >
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    월고정비(만원)
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
+                                  <Row gap="8px">
+                                    <TextField
+                                      size="small"
+                                      fullWidth
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">최소</InputAdornment>,
+                                      }} />
+                                    <TextField
+                                      size="small"
+                                      fullWidth
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">최대</InputAdornment>,
+                                      }} />
+                                  </Row>
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
+                            >
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    NOC(만원)
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
+                                  <Row gap="8px">
+                                    <TextField
+                                      size="small"
+                                      fullWidth
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">최소</InputAdornment>,
+                                      }} />
+                                    <TextField
+                                      size="small"
+                                      fullWidth
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">최대</InputAdornment>,
+                                      }} />
+                                  </Row>
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
+                            >
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    보증금(만원)
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
+                                  <Row gap="8px">
+                                    <TextField
+                                      size="small"
+                                      fullWidth
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">최소</InputAdornment>,
+                                      }} />
+                                    <TextField
+                                      size="small"
+                                      fullWidth
+                                      InputProps={{
+                                        startAdornment: <InputAdornment position="start">최대</InputAdornment>,
+                                      }} />
+                                  </Row>
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
+                            >
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    사무실 사용 인원
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
                                   <TextField
                                     size="small"
                                     fullWidth
                                     InputProps={{
-                                      startAdornment: <InputAdornment position="start">최소</InputAdornment>,
+                                      endAdornment: <InputAdornment position="start">명</InputAdornment>,
                                     }} />
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
+                            >
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    주차장 유형
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
+                                  <Autocomplete
+                                    id="park-type"
+                                    size="small"
+                                    options={parkOptions}
+                                    defaultValue={parkOptions[0]}
+                                    filterSelectedOptions
+                                    fullWidth
+                                    getOptionLabel={(option) => option.title}
+                                    renderInput={(params) => (
+                                      <TextField {...params} placeholder="선택" />
+                                    )}
+                                  />
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
+                            >
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    엘리베이터
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
+                                  <Autocomplete
+                                    id="elevator"
+                                    size="small"
+                                    options={existOrNotOptions}
+                                    defaultValue={existOrNotOptions[0]}
+                                    filterSelectedOptions
+                                    fullWidth
+                                    getOptionLabel={(option) => option.title}
+                                    renderInput={(params) => (
+                                      <TextField {...params} placeholder="선택" />
+                                    )}
+                                  />
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
+                            >
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    냉방 유형
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
+                                  <Autocomplete
+                                    id="cooling"
+                                    size="small"
+                                    options={coolingOptions}
+                                    defaultValue={coolingOptions[0]}
+                                    filterSelectedOptions
+                                    fullWidth
+                                    getOptionLabel={(option) => option.title}
+                                    renderInput={(params) => (
+                                      <TextField {...params} placeholder="선택" />
+                                    )}
+                                  />
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
+                            >
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    난방 유형
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
+                                  <Autocomplete
+                                    id="heating"
+                                    size="small"
+                                    options={heatingOptions}
+                                    defaultValue={heatingOptions[0]}
+                                    filterSelectedOptions
+                                    fullWidth
+                                    getOptionLabel={(option) => option.title}
+                                    renderInput={(params) => (
+                                      <TextField {...params} placeholder="선택" />
+                                    )}
+                                  />
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
+                            >
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    인테리어
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
+                                  <Autocomplete
+                                    id="interior"
+                                    size="small"
+                                    options={yesOrNoOptions}
+                                    defaultValue={yesOrNoOptions[0]}
+                                    filterSelectedOptions
+                                    fullWidth
+                                    getOptionLabel={(option) => option.title}
+                                    renderInput={(params) => (
+                                      <TextField {...params} placeholder="선택" />
+                                    )}
+                                  />
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
+                            >
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    층 옵션
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
+                                  <FormGroup sx={{ flexDirection: 'row' }}>
+                                    <FormControlLabel control={<Checkbox />} label="1층만" />
+                                    <FormControlLabel control={<Checkbox />} label="1층 제외" />
+                                    <FormControlLabel control={<Checkbox />} label="지하만" />
+                                    <FormControlLabel control={<Checkbox />} label="지하 제외" />
+                                  </FormGroup>
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
+                            >
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    주택형 사무실
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
+                                  <Autocomplete
+                                    id="is-house-office"
+                                    size="small"
+                                    options={yesOrNoOptions}
+                                    defaultValue={yesOrNoOptions[0]}
+                                    filterSelectedOptions
+                                    fullWidth
+                                    getOptionLabel={(option) => option.title}
+                                    renderInput={(params) => (
+                                      <TextField {...params} placeholder="선택" />
+                                    )}
+                                  />
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
+                            >
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    전월세 구분
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
+                                  <Autocomplete
+                                    id="fee-type"
+                                    size="small"
+                                    options={feeTypeOptions}
+                                    defaultValue={feeTypeOptions[0]}
+                                    filterSelectedOptions
+                                    fullWidth
+                                    getOptionLabel={(option) => option.title}
+                                    renderInput={(params) => (
+                                      <TextField {...params} placeholder="선택" />
+                                    )}
+                                  />
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
+                            >
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    준공 연도
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
                                   <TextField
                                     size="small"
                                     fullWidth
                                     InputProps={{
-                                      startAdornment: <InputAdornment position="start">최대</InputAdornment>,
+                                      endAdornment: <InputAdornment position="start">년 이내</InputAdornment>,
                                     }} />
-                                </Row>
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
                             >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  월고정비(만원)
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <Row gap="8px">
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    도보 거리
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
                                   <TextField
                                     size="small"
                                     fullWidth
                                     InputProps={{
-                                      startAdornment: <InputAdornment position="start">최소</InputAdornment>,
+                                      endAdornment: <InputAdornment position="start">분 이내</InputAdornment>,
                                     }} />
-                                  <TextField
-                                    size="small"
-                                    fullWidth
-                                    InputProps={{
-                                      startAdornment: <InputAdornment position="start">최대</InputAdornment>,
-                                    }} />
-                                </Row>
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                          </TableRow>
+                          <TableRow>
+                            <TableCell
+                              sx={{ width: "auto", textAlign: "left" }}
+                              colSpan={2}
                             >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  NOC(만원)
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <Row gap="8px">
-                                  <TextField
-                                    size="small"
-                                    fullWidth
-                                    InputProps={{
-                                      startAdornment: <InputAdornment position="start">최소</InputAdornment>,
-                                    }} />
-                                  <TextField
-                                    size="small"
-                                    fullWidth
-                                    InputProps={{
-                                      startAdornment: <InputAdornment position="start">최대</InputAdornment>,
-                                    }} />
-                                </Row>
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
-                            >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  보증금(만원)
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <Row gap="8px">
-                                  <TextField
-                                    size="small"
-                                    fullWidth
-                                    InputProps={{
-                                      startAdornment: <InputAdornment position="start">최소</InputAdornment>,
-                                    }} />
-                                  <TextField
-                                    size="small"
-                                    fullWidth
-                                    InputProps={{
-                                      startAdornment: <InputAdornment position="start">최대</InputAdornment>,
-                                    }} />
-                                </Row>
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
-                            >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  사무실 사용 인원
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <TextField
-                                  size="small"
-                                  fullWidth
-                                  InputProps={{
-                                    endAdornment: <InputAdornment position="start">명</InputAdornment>,
-                                  }} />
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
-                            >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  주차장 유형
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <Autocomplete
-                                  id="park-type"
-                                  size="small"
-                                  options={parkOptions}
-                                  defaultValue={parkOptions[0]}
-                                  filterSelectedOptions
-                                  fullWidth
-                                  getOptionLabel={(option) => option.title}
-                                  renderInput={(params) => (
-                                    <TextField {...params} placeholder="선택" />
-                                  )}
-                                />
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
-                            >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  엘리베이터
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <Autocomplete
-                                  id="elevator"
-                                  size="small"
-                                  options={existOrNotOptions}
-                                  defaultValue={existOrNotOptions[0]}
-                                  filterSelectedOptions
-                                  fullWidth
-                                  getOptionLabel={(option) => option.title}
-                                  renderInput={(params) => (
-                                    <TextField {...params} placeholder="선택" />
-                                  )}
-                                />
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
-                            >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  냉방 유형
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <Autocomplete
-                                  id="cooling"
-                                  size="small"
-                                  options={coolingOptions}
-                                  defaultValue={coolingOptions[0]}
-                                  filterSelectedOptions
-                                  fullWidth
-                                  getOptionLabel={(option) => option.title}
-                                  renderInput={(params) => (
-                                    <TextField {...params} placeholder="선택" />
-                                  )}
-                                />
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
-                            >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  난방 유형
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <Autocomplete
-                                  id="heating"
-                                  size="small"
-                                  options={heatingOptions}
-                                  defaultValue={heatingOptions[0]}
-                                  filterSelectedOptions
-                                  fullWidth
-                                  getOptionLabel={(option) => option.title}
-                                  renderInput={(params) => (
-                                    <TextField {...params} placeholder="선택" />
-                                  )}
-                                />
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
-                            >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  인테리어
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <Autocomplete
-                                  id="interior"
-                                  size="small"
-                                  options={yesOrNoOptions}
-                                  defaultValue={yesOrNoOptions[0]}
-                                  filterSelectedOptions
-                                  fullWidth
-                                  getOptionLabel={(option) => option.title}
-                                  renderInput={(params) => (
-                                    <TextField {...params} placeholder="선택" />
-                                  )}
-                                />
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
-                            >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  층 옵션
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <FormGroup sx={{ flexDirection: 'row' }}>
-                                  <FormControlLabel control={<Checkbox />} label="1층만" />
-                                  <FormControlLabel control={<Checkbox />} label="1층 제외" />
-                                  <FormControlLabel control={<Checkbox />} label="지하만" />
-                                  <FormControlLabel control={<Checkbox />} label="지하 제외" />
-                                </FormGroup>
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
-                            >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  주택형 사무실
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <Autocomplete
-                                  id="is-house-office"
-                                  size="small"
-                                  options={yesOrNoOptions}
-                                  defaultValue={yesOrNoOptions[0]}
-                                  filterSelectedOptions
-                                  fullWidth
-                                  getOptionLabel={(option) => option.title}
-                                  renderInput={(params) => (
-                                    <TextField {...params} placeholder="선택" />
-                                  )}
-                                />
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
-                            >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  전월세 구분
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <Autocomplete
-                                  id="fee-type"
-                                  size="small"
-                                  options={feeTypeOptions}
-                                  defaultValue={feeTypeOptions[0]}
-                                  filterSelectedOptions
-                                  fullWidth
-                                  getOptionLabel={(option) => option.title}
-                                  renderInput={(params) => (
-                                    <TextField {...params} placeholder="선택" />
-                                  )}
-                                />
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
-                            >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  준공 연도
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <TextField
-                                  size="small"
-                                  fullWidth
-                                  InputProps={{
-                                    endAdornment: <InputAdornment position="start">년 이내</InputAdornment>,
-                                  }} />
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
-                            >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  도보 거리
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <TextField
-                                  size="small"
-                                  fullWidth
-                                  InputProps={{
-                                    endAdornment: <InputAdornment position="start">분 이내</InputAdornment>,
-                                  }} />
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                        </TableRow>
-                        <TableRow>
-                          <TableCell
-                            sx={{ width: "auto", textAlign: "left" }}
-                            colSpan={2}
-                          >
-                            <Row
-                              alignItems="center"
-                              gap="10px"
-                              height="100%"
-                            >
-                              <TitleCell>
-                                <Typography
-                                  variant="body2"
-                                  fontWeight="bold"
-                                >
-                                  기타
-                                </Typography>
-                              </TitleCell>
-                              <ContentCell>
-                                <TextField size="small" fullWidth />
-                              </ContentCell>
-                            </Row>
-                          </TableCell>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
+                              <Row
+                                alignItems="center"
+                                gap="10px"
+                                height="100%"
+                              >
+                                <TitleCell>
+                                  <Typography
+                                    variant="body2"
+                                    fontWeight="bold"
+                                  >
+                                    기타
+                                  </Typography>
+                                </TitleCell>
+                                <ContentCell>
+                                  <TextField size="small" fullWidth />
+                                </ContentCell>
+                              </Row>
+                            </TableCell>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </Column>
                   )}
                 </Column>
                 <Row
                   gap="10px"
-                  sx={{alignItems: "center", borderTop: "1px solid #BBBBBB"}}
+                  sx={{ alignItems: "center", borderTop: "1px solid #BBBBBB" }}
                 >
                   <ul>
                     <li>관련업무</li>
                   </ul>
-                  <TextField size="small" placeholder="업무명, ID 검색"/>
+                  <TextField size="small" placeholder="업무명, ID 검색" />
                 </Row>
               </Collapse>
             </Column>
             <FormControlLabel
-              control={<Checkbox/>}
+              control={<Checkbox />}
               label={
                 <Typography variant="subtitle2">연결업무 추가 등록</Typography>
               }
             />
           </Column>
         </AccordionDetails>
-        <DialogActions
-          sx={{
-            justifyContent: "center",
-            borderTop: "1px solid #D9D9D9",
-            backgroundColor: "#F6F8FA",
-          }}
-        >
-          <Button variant="outlined" onClick={onClose}>
-            닫기
-          </Button>
-          <Button variant="contained" onClick={onClose}>
-            등록
-          </Button>
-        </DialogActions>
       </Accordion>
-    </Dialog>
-  )
-}
+    </Drawer>
+  );
+};
 
-export default TaskCreateDialog
+export default TaskCreateDialog;
